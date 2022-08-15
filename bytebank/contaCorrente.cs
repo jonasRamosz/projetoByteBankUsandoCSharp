@@ -3,16 +3,7 @@ namespace bytebank
 {
     public class contaCorrente
 {
-    public contaCorrente( string nome_agencia, int numero_agencia, string contas)
-        {
-           
-            nomeAgencia = nome_agencia;
-            numeroAgencia = numero_agencia;
-            conta = contas;
-
-            totalDeContasCriadas += 1;
-
-        }
+    
         public static int totalDeContasCriadas { get; set; }
 
         public Cliente titular { get; set; }
