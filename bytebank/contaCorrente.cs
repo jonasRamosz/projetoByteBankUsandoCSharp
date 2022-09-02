@@ -16,7 +16,7 @@
             {
                 return _agencia;
             }
-            set
+            private set
             {
                 if (value <= 0)
                 {
@@ -26,7 +26,7 @@
                 _agencia = value;
             }
         }
-        public int Numero { get; set; }
+        public int Numero { get;}
 
         private double _saldo = 100;
 
@@ -52,7 +52,16 @@
         {
             Agencia = agencia;
             Numero = numero;
-            TaxaOperacao = 30 / TotalDeContasCriadas; 
+            //TaxaOperacao = 30 / TotalDeContasCriadas; 
+            if (agencia <= 0)
+            {
+                throw new ArgumentException("O argumento agencia deve ser maior que 0.", nameof(agencia));
+            }
+            if (numero <= 0)
+            {
+                throw new ArgumentException("O argumento numero deve ser maior que 0.",nameof(numero));
+            }
+
             TotalDeContasCriadas++;
         }
 

@@ -14,17 +14,14 @@ namespace ByteBank
 
             try
             {
-                int n1 = 2;
-                int n2 = 1;
-
-                double div = n1 / n2;
-                Console.WriteLine($"o resultato é {div}");
+                ContaCorrente conta = new ContaCorrente(0, 0);
             }
-            catch (DivideByZeroException)
+            catch (ArgumentException ex)
             {
-                Console.WriteLine("Impossivel dividir pr 0");
+                Console.WriteLine($"Erro no parametro: {ex.ParamName}");
+                Console.WriteLine("Ocorreu um erro do tipo ArgumentException");
+                Console.WriteLine(ex.Message);
             }
-            }
-
+        }
     }
 }
