@@ -1,11 +1,15 @@
-﻿namespace ByteBank
+﻿using bytebank;
+
+namespace ByteBank
 {
-    public class ContaCorrente
+    public class ContaCorrente 
     {
         public Cliente Titular { get; set; }
 
         public static double TaxaOperacao { get;private set; }
 
+        public int ContadorSaquesNaoPermitidos { get; private set; }
+        public int ContadorTransferenciasNaoPermitidas { get; private set; }
         public static int TotalDeContasCriadas { get; private set; }
 
 
@@ -61,20 +65,22 @@
             {
                 throw new ArgumentException("O argumento numero deve ser maior que 0.",nameof(numero));
             }
-
             TotalDeContasCriadas++;
+            TaxaOperacao = 30 / TotalDeContasCriadas;
+            
         }
 
 
-        public bool Sacar(double valor)
+        public void Sacar(double valor)
         {
             if (_saldo < valor)
             {
-                return false;
+                ContadorSaquesNaoPermitidos++;
+                throw new SaldoInsuficienteException($"saldo insuficiente para o deposito de {valor}");
             }
 
             _saldo -= valor;
-            return true;
+           
         }
 
         public void Depositar(double valor)
@@ -85,9 +91,14 @@
 
         public bool Transferir(double valor, ContaCorrente contaDestino)
         {
-            if (_saldo < valor)
+            try
             {
-                return false;
+                Sacar(valor);
+            }
+            catch (SaldoInsuficienteException ex)
+            {
+                ContadorTransferenciasNaoPermitidas++;
+                throw new OperacaoFinanceiraException("operação não realizada.", ex);
             }
 
             _saldo -= valor;
